@@ -84,6 +84,17 @@ Route::group([
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
             }
         );
+
+        // LOGS
+        $cname = "log";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("create", ucfirst($cname) . "Controller@create")->name('create');
+            }
+        );
     }
 );
 
