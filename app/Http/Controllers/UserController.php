@@ -7,6 +7,8 @@ use App\Models\User;
 use DB;
 use Auth;
 
+use App\Helpers\Helper;
+
 class UserController extends Controller
 {
     public function __construct(){
@@ -68,21 +70,45 @@ class UserController extends Controller
         $data->contact = $req->contact;
         $data->password = $req->password;
 
+        Helper::log(auth()->user()->id, "created $data->role user", $data->id);
+
         echo $data->save();
     }
 
     public function update(Request $req){
-        echo DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
+        if($req->hasFile('avatar')){
+            $user = User::find($req->id);
+
+            $temp = $req->file('avatar');
+            $image = Image::make($temp);
+
+            $name = $user->lname . '_' . $user->fname . '-' . time() . "." . $temp->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
+
+            $image->resize(250, 250);
+            $image->save($destinationPath . $name);
+            $user->avatar = 'uploads/' . env('UPLOAD_URL') . $name;
+            $user->save();
+        }
+        else{
+            DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token', 'avatar']));
+        }
+
+        echo Helper::log(auth()->user()->id, 'updated user', $req->id);
     }
 
     public function updatePassword(Request $req){
         $user = User::find($req->id);
         $user->password = $req->password;
+
+        Helper::log(auth()->user()->id, 'updated password of user', $req->id);
+        
         $user->save();
     }
 
     public function delete(Request $req){
         User::find($req->id)->delete();
+        Helper::log(auth()->user()->id, 'deleted user', $req->id);
     }
 
     public function index(){
