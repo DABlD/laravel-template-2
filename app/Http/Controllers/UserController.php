@@ -16,7 +16,7 @@ class UserController extends Controller
     }
 
     public function get(Request $req){
-        $array = DB::table($this->table)->select($req->select);
+        $array = User::select($req->select);
 
         // IF HAS SORT PARAMETER $ORDER
         if($req->order){

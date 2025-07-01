@@ -43,8 +43,8 @@
 @endsection
 
 @push('styles')
-	<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
+	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}"> --}}
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.bootstrap4.min.css') }}"> --}}
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables-jquery.min.css') }}"> --}}
 @endpush

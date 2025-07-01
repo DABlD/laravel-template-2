@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 
-        @yield('styles')
+        @stack('styles')
 
     </head>
 
